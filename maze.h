@@ -14,6 +14,7 @@
 
 #define	SIGHT	1
 
+#define YONGHO	30
 
 struct travler{
 	int pos_x;
