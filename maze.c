@@ -32,7 +32,7 @@ void move_m();
 
 void main(){
 	set_up();
-	mvaddstr(29, 41, "Level: 1");
+	mvaddstr(0, 41, "Level: 1");
 	start(NUM_OB, NUM_MON);
 	endwin();
 }
@@ -261,7 +261,7 @@ void death(int mn){
 
 int win()
 {
-	if (1) { // win 조건 -> 보물 찾았을 때
+	if (t.pos_x == tr.pos_x && t.pos_y == tr.pos_y) { // win 조건 -> 보물 찾았을 때
 		mvaddstr(0, 41, "Win. Next Level.");
 		LEVEL++;
 		return 1;
@@ -330,12 +330,19 @@ void start(int n, int m){
 		move_t(c, n);
 		sight_vis(n, m);
 		anew(n, m);
-		/*if (win()) {
+		if (win()) {
 			sprintf(level, "%d", LEVEL);
 			erase();
-			set_up(); mvaddstr(29, 41, "Level:");
-			mvaddstr(29, 42+strlen("Level:"), level);
-		}*/
+			set_up(); 
+			if (LEVEL == 2) {
+				mvaddstr(0, 46, "Level:");
+				mvaddstr(0, 47+strlen("Level:"), level);
+			}
+			if (LEVEL == 3) {
+				mvaddstr(0, 51, "Level:");
+				mvaddstr(0, 52+strlen("Level:"), level);
+			}	
+		}
 		if (LEVEL == 4) {
 			endwin(); exit(1);
 		}
