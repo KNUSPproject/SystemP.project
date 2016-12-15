@@ -30,7 +30,8 @@ void move_m();
 
 
 void main(){
-	set_up(); mvaddstr(29, 41, "Level: 1");
+	set_up();
+	mvaddstr(29, 41, "Level: 1");
 	start(NUM_OB, NUM_MON);
 	endwin();
 }
@@ -47,20 +48,20 @@ void set_up(){
 	mvaddch(t.pos_x, t.pos_y, t.sym);
 
 	for(x = 0; x < SCX + lsup[LEVEL-1].x; x++){
-                for(y = 0; y < SCY + lsup[LEVEL-1]; y++){
-                        if(x == 0 || x == SCX + lsup[LEVEL-1] - 1) mvaddch(x, y, '@');
+                for(y = 0; y < SCY + lsup[LEVEL-1].y; y++){
+                        if(x == 0 || x == SCX + lsup[LEVEL-1].x - 1) mvaddch(x, y, '@');
                         else
-                                if(y == 0 || y == SCY + lsup[LEVEL-1] - 1) mvaddch(x, y, '@');
+                                if(y == 0 || y == SCY + lsup[LEVEL-1].y - 1) mvaddch(x, y, '@');
                 }
         }
 	//sets the entire map. boundary is wall.
 
-	map_setting(NUM_OB + lsup[LEVEL-1]);
-	mon_setting(NUM_MON + lsup[LEVEL-1]);
-	sight_vis(NUM_OB + lsup[LEVEL-1], NUM_MON + lsup[LEVEL-1]);
-	for(x = 0; x < NUM_OB + lsup[LEVEL-1]; x++)
+	map_setting(NUM_OB + lsup[LEVEL-1].wal);
+	mon_setting(NUM_MON + lsup[LEVEL-1].mon);
+	sight_vis(NUM_OB + lsup[LEVEL-1].wal, NUM_MON + lsup[LEVEL-1].mon);
+	for(x = 0; x < NUM_OB + lsup[LEVEL-1].wal; x++)
 		if(wall[x].vis == 1) mvaddch(wall[x].pos_x, wall[x].pos_y, wall[x].sym);
-	for(x = 0; x < NUM_MON + lsup[LEVEL-1]; x++)
+	for(x = 0; x < NUM_MON + lsup[LEVEL-1].mon; x++)
 		if(m[x].vis == 1) mvaddch(m[x].pos_x, m[x].pos_y, m[x].sym);
 	//show object if they are in travler's sight
 	
@@ -102,7 +103,8 @@ void map_setting(int n){
 		wall[i].pos_x = x;
 		wall[i].pos_y = y;
 		wall[i].sym = WALL_SYMBOL;
-	} //set walls (travler and monster cannot move into walls.)
+		} //set walls (travler and monster cannot move into walls.)
+	}
 }
 
 void mon_setting(int n){
@@ -122,9 +124,9 @@ void mon_setting(int n){
 		m[i].pos_x = x;
 		m[i].pos_y = y;
 		m[i].sym = MON_SYMBOL;
-	} //set monsters (travler dies when touched monster)
+		} //set monsters (travler dies when touched monster)
+	}	
 }
-
 void trs_setting(){
 	int x, y;
 	srand(time(NULL));
@@ -134,7 +136,7 @@ void trs_setting(){
 	
 	tr.pos_x = x;
 	tr.pos_y = y;
-	tr.symbol = TRS_SYMBOL;
+	tr.sym = TRS_SYMBOL;
 }
 
 
@@ -242,7 +244,7 @@ void death(int mn){
 
 int win()
 {
-	if () { // win 조건 -> 보물 찾았을 때
+	if (1) { // win 조건 -> 보물 찾았을 때
 		mvaddstr(0, 41, "Win. Next Level.");
 		LEVEL++;
 		return 1;
@@ -323,4 +325,3 @@ void start(int n, int m){
 		death(m);
 	}
 }
-

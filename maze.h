@@ -33,7 +33,7 @@ struct level_setup{
 	int wal;
 	int mon;
 	int sit;
-}
+};
 //use this struct to set up level.
 
 struct travler{
