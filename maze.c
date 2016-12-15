@@ -5,7 +5,9 @@
 #include	<time.h>
 #include	<signal.h>
 #include	"maze.h"
-// test
+
+// yeji
+
 #define	MAX_OB	80
 #define	NUM_OB	80
 #define NUM_MON	5
@@ -16,6 +18,8 @@ struct obstacle wall[MAX_OB];
 struct obstacle	fall[MAX_OB];
 struct obstacle	warp[MAX_OB];
 
+int LEVEL = 1;
+
 void set_up();
 void map_setting();
 void sight_vis(int, int);
@@ -23,7 +27,7 @@ void anew(int, int);
 void start(int, int);
 
 void main(){
-	set_up();
+	set_up(); mvaddstr(29, 41, "Level: 1");
 	start(NUM_OB, NUM_MON);
 	endwin();
 }
@@ -188,6 +192,16 @@ void death(int mn){
 	}
 }
 
+int win()
+{
+	if () { // win 조건 -> 보물 찾았을 때
+		mvaddstr(0, 41, "Win. Next Level.");
+		LEVEL++;
+		return 1;
+	}
+	return 0;
+}
+
 int set_ticker(int n_msecs){
         struct itimerval t;
         long n_sec, n_usecs;
@@ -233,20 +247,28 @@ void sight_vis(int n, int nm){
 
 void start(int n, int m){
 	char c;
-	//signal(SIGINT, SIG_DFL);
+	char *level;
+
 	while(1){
 		c = getchar();
+		if (c == 'r') {
+			erase();
+			set_up();
+		}
 		move_t(c, n);
 		move_m(m);
 		sight_vis(n, m);
 		anew(n, m);
+		if (win()) {
+			sprintf(level, "%d", LEVEL);
+			erase();
+			set_up(); mvaddstr(29, 41, "Level:");
+			mvaddstr(29, 42+strlen("Level:"), level);
+		}
+		if (LEVEL == 4) {
+			endwin(); exit(1);
+		}
 		death(m);
 	}
 }
 
-
-
-
-
-
-	
