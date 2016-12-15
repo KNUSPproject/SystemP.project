@@ -261,6 +261,8 @@ void death(int mn){
 	int i;
 	for(i = 0; i < mn; i++){
 		if(t.pos_x == m[i].pos_x && t.pos_y == m[i].pos_y){
+			mvaddstr(SCX + lsup[LEVEL-1].x + 3, 30, "You Died.");
+			//sleep(3);
 			endwin();
 			exit(1);
 		}
@@ -270,7 +272,8 @@ void death(int mn){
 int win()
 {
 	if (t.pos_x == tr.pos_x && t.pos_y == tr.pos_y) { // win 조건 -> 보물 찾았을 때
-		mvaddstr(0, 41, "Win. Next Level.");
+		mvaddstr(SCX + lsup[LEVEL-1].x + 3, 30, "Win. Next Level.");
+		//sleep(3);
 		LEVEL++;
 		return 1;
 	}
@@ -349,12 +352,12 @@ void start(int n, int m){
 			erase();
 			set_up(); 
 			if (LEVEL == 2) {
-				mvaddstr(0, 46, "Level:");
-				mvaddstr(0, 47+strlen("Level:"), level);
+				mvaddstr(0, SCY + 5 + lsup[LEVEL-1].y , "Level:");
+				mvaddstr(0, SCY + 7 + lsup[LEVEL-1].y + strlen("Level:"), level);
 			}
 			if (LEVEL == 3) {
-				mvaddstr(0, 51, "Level:");
-				mvaddstr(0, 52+strlen("Level:"), level);
+				mvaddstr(0, SCY + 5 + lsup[LEVEL-1].y , "Level:");
+				mvaddstr(0, SCY + 5 + lsup[LEVEL-1].y + strlen("Level:"), level);
 			}	
 		}
 		if (LEVEL == 4) {

@@ -25,7 +25,7 @@
 #define LV2MON	5 //the amount of increased monster of level 2.
 
 #define LV3WAL	40
-#define LV3SIT	2
+#define LV3SIT	4
 #define LV3MON	10	
 
 struct level_setup{
