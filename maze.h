@@ -1,10 +1,10 @@
 #define SCX	30
 #define	SCY	40
 
-#define LV2X	20
-#define	LV2Y	5
-#define	LV3X	20
-#define	LV3Y	10
+#define LV2X	1
+#define	LV2Y	40
+#define	LV3X	2
+#define	LV3Y	80
 
 #define	WALL_SYMBOL	'@'
 #define	MON_SYMBOL	'#'
@@ -20,13 +20,13 @@
 
 #define	SIGHT	30
 
-#define LV2WAL	10 //the amount of increased wall of level 2.
-#define LV2SIT	3 //the amount of decreased sight range of level 2.
-#define LV2MON	3 //the amount of increased monster of level 2.
+#define LV2WAL	20 //the amount of increased wall of level 2.
+#define LV2SIT	1 //the amount of decreased sight range of level 2.
+#define LV2MON	5 //the amount of increased monster of level 2.
 
-#define LV3WAL	10
-#define LV3SIT	3
-#define LV3MON	3 	
+#define LV3WAL	40
+#define LV3SIT	2
+#define LV3MON	10	
 
 struct level_setup{
 	int x, y;

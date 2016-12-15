@@ -6,7 +6,7 @@
 #include	<signal.h>
 #include	"maze.h"
 
-#define	MAX_OB	80
+#define	MAX_OB	255
 #define	NUM_OB	80
 #define NUM_MON	5
 
@@ -63,11 +63,14 @@ void set_up(){
 	mon_setting(NUM_MON + lsup[LEVEL-1].mon);
 	trs_setting();
 	sight_vis(NUM_OB + lsup[LEVEL-1].wal, NUM_MON + lsup[LEVEL-1].mon);
+
 	for(x = 0; x < NUM_OB + lsup[LEVEL-1].wal; x++)
 		if(wall[x].vis == 1) mvaddch(wall[x].pos_x, wall[x].pos_y, wall[x].sym);
+
 	for(x = 0; x < NUM_MON + lsup[LEVEL-1].mon; x++)
 		if(m[x].vis == 1) mvaddch(m[x].pos_x, m[x].pos_y, m[x].sym);
-	mvaddch(tr.pos_x, tr.pos_y, tr.sym);
+
+	if(tr.vis == 1) mvaddch(tr.pos_x, tr.pos_y, tr.sym);
 	//show object if they are in travler's sight
 	
         refresh();
@@ -101,8 +104,8 @@ void map_setting(int n){
 		isdup = 0;
 		x = rand()%(SCX + lsup[LEVEL-1].x -2) + 1;
 		y = rand()%(SCY + lsup[LEVEL-1].y -2) + 1;
-		for(j = 1; j < i; j++){
-			if(wall[i].pos_x == x && wall[i].pos_y == y){
+		for(j = 0; j < i; j++){
+			if(wall[j].pos_x == x && wall[j].pos_y == y){
 			isdup = 1;
 			break;
 		}//check duplication
@@ -128,8 +131,8 @@ void mon_setting(int n){
 		isdup = 0;
 		x = rand()&(SCX + lsup[LEVEL-1].x - 2) +1;
 		y = rand()&(SCY + lsup[LEVEL-1].y - 2) +1;
-		for(j = 1; j < i; j++){
-			if(m[i].pos_x == x && m[i].pos_x == y){
+		for(j = 0; j < i; j++){
+			if(m[j].pos_x == x && m[j].pos_x == y){
 			isdup = 1;
 			break;
 		}//check duplication
@@ -151,6 +154,7 @@ void trs_setting(){
 	x = rand()%(SCX + lsup[LEVEL-1].x -2) + 1;
 	y = rand()%(SCY + lsup[LEVEL-1].y -2) + 1;
 	
+	tr.vis = 0;
 	tr.pos_x = x;
 	tr.pos_y = y;
 	tr.sym = TRS_SYMBOL;
@@ -231,19 +235,19 @@ void move_m(){
                 if(dir == 2 && ok == 0) m[i].pos_y++;
                 if(dir == 3 && ok == 0) m[i].pos_y--;
         }
-	anew(NUM_OB,NUM_MON);
+	anew(NUM_OB + lsup[LEVEL-1].wal ,NUM_MON + lsup[LEVEL-1].mon);
 }
 
 int wall_check_m(int x, int y, int n, int dir){
 	int i;
 	for(i = 0; i < n; i++){
-		if(dir == 0 && x+1 == wall[i].pos_x) return 1;
-		if(dir == 0 && x+1 == SCX + lsup[LEVEL-1].x) return 1;
-		if(dir == 1 && x-1 == wall[i].pos_x) return 1;
+		if(dir == 0 && x+1 == wall[i].pos_x && y == wall[i].pos_y) return 1;
+		if(dir == 0 && x+1 == SCX + lsup[LEVEL-1].x - 1) return 1;
+		if(dir == 1 && x-1 == wall[i].pos_x && y == wall[i].pos_y) return 1;
 		if(dir == 1 && x-1 == 0) return 1;
-		if(dir == 2 && y+1 == wall[i].pos_y) return 1;
-		if(dir == 2 && y+1 == SCY + lsup[LEVEL-1].y) return 1;
-		if(dir == 3 && y-1 == wall[i].pos_y) return 1;
+		if(dir == 2 && y+1 == wall[i].pos_y && x == wall[i].pos_x) return 1;
+		if(dir == 2 && y+1 == SCY + lsup[LEVEL-1].y -1) return 1;
+		if(dir == 3 && y-1 == wall[i].pos_y && x == wall[i].pos_x) return 1;
 		if(dir == 3 && y-1 == 0) return 1;
 	}
 	return 0;
@@ -309,7 +313,13 @@ void sight_vis(int n, int nm){
                 }
                 else m[i].vis = 0;
         }
-
+	if(tr.pos_x >= ranx_min && m[i].pos_x <= ranx_max){
+		if(tr.pos_y >= rany_min && tr.pos_y <= rany_max){
+			tr.vis = 1;
+		}
+		else tr.vis = 0;
+	}
+	else tr.vis = 0;
 }
 
 void start(int n, int m){
@@ -329,7 +339,7 @@ void start(int n, int m){
 		}
 		move_t(c, n);
 		sight_vis(n, m);
-		anew(n, m);
+		anew(n + lsup[LEVEL-1].wal , m + lsup[LEVEL-1].mon);
 		if (win()) {
 			sprintf(level, "%d", LEVEL);
 			erase();
