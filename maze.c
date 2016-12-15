@@ -5,7 +5,7 @@
 #include	<time.h>
 #include	<signal.h>
 #include	"maze.h"
-
+// test
 #define	MAX_OB	80
 #define	NUM_OB	80
 #define NUM_MON	5
