@@ -6,12 +6,13 @@
 #include	<signal.h>
 #include	"maze.h"
 
-// yeji
-
 #define	MAX_OB	80
 #define	NUM_OB	80
 #define NUM_MON	5
-//git test
+
+#define LV1WL	
+#define 
+
 struct travler t;
 struct monster m[NUM_MON];
 struct obstacle wall[MAX_OB];
@@ -49,6 +50,7 @@ void set_up(){
                                 if(y == 0 || y == SCY-1) mvaddch(x, y, '@');
                 }
         }
+	//sets the entire map. boundary is wall.
 
 	map_setting(NUM_OB);
 	mon_setting(NUM_MON);
@@ -57,9 +59,11 @@ void set_up(){
 		if(wall[x].vis == 1) mvaddch(wall[x].pos_x, wall[x].pos_y, wall[x].sym);
 	for(x = 0; x < NUM_MON; x++)
 		if(m[x].vis == 1) mvaddch(m[x].pos_x, m[x].pos_y, m[x].sym);
+	//show object if they are in travler's sight
 	
         refresh();
 }
+//function sest up the objects initial position.
 
 void map_setting(int n){
 	int i;
@@ -73,7 +77,7 @@ void map_setting(int n){
 		wall[i].pos_x = x;
 		wall[i].pos_y = y;
 		wall[i].sym = WALL_SYMBOL;
-	} //set walls (cannot move into walls.)
+	} //set walls (travler and monster cannot move into walls.)
 }
 
 void mon_setting(int n){
@@ -88,9 +92,8 @@ void mon_setting(int n){
 		m[i].pos_x = x;
 		m[i].pos_y = y;
 		m[i].sym = MON_SYMBOL;
-	}
+	} //set monsters (travler dies when touched monster)
 }
-
 
 void anew(int n, int nm){
 	int i;
