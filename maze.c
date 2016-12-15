@@ -34,7 +34,7 @@ void move_m();
 
 void main(){
 	set_up();
-	mvaddstr(29, 41, "Level: 1");
+	mvaddstr(0, 41, "Level: 1");
 	start(NUM_OB, NUM_MON);
 	endwin();
 }
@@ -335,8 +335,15 @@ void start(int n, int m){
 		if (win()) {
 			sprintf(level, "%d", LEVEL);
 			erase();
-			set_up(); mvaddstr(29, 41, "Level:");
-			mvaddstr(29, 42+strlen("Level:"), level);
+			set_up(); 
+			if (LEVEL == 2) {
+				mvaddstr(0, 46, "Level:");
+				mvaddstr(0, 47+strlen("Level:"), level);
+			}
+			if (LEVEL == 3) {
+				mvaddstr(0, 51, "Level:");
+				mvaddstr(0, 52+strlen("Level:"), level);
+			}
 		}
 		if (LEVEL == 4) {
 			endwin(); exit(1);
