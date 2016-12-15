@@ -174,8 +174,11 @@ void anew(int n, int nm){
 		if(m[i].vis == 0) mvaddch(m[i].pos_x, m[i].pos_y, ' ');
 		else mvaddch(m[i].pos_x, m[i].pos_y, m[i].sym);
 	}
-	refresh();
+	if(tr.vis == 0) mvaddch(tr.pos_x, tr.pos_y, ' ');
+	else mvaddch(tr.pos_x,tr.pos_y,tr.sym);
+
 	move(LINES-1,0);
+	refresh();
 }
 
 void move_t(char c, int n){
@@ -235,6 +238,7 @@ void move_m(){
                 if(dir == 2 && ok == 0) m[i].pos_y++;
                 if(dir == 3 && ok == 0) m[i].pos_y--;
         }
+	death(m + lsup[LEVEL-1].mon);
 	anew(NUM_OB + lsup[LEVEL-1].wal ,NUM_MON + lsup[LEVEL-1].mon);
 }
 
@@ -313,7 +317,7 @@ void sight_vis(int n, int nm){
                 }
                 else m[i].vis = 0;
         }
-	if(tr.pos_x >= ranx_min && m[i].pos_x <= ranx_max){
+	if(tr.pos_x >= ranx_min && tr.pos_x <= ranx_max){
 		if(tr.pos_y >= rany_min && tr.pos_y <= rany_max){
 			tr.vis = 1;
 		}
@@ -356,6 +360,6 @@ void start(int n, int m){
 		if (LEVEL == 4) {
 			endwin(); exit(1);
 		}
-		death(m);
+		death(m + lsup[LEVEL-1].mon);
 	}
 }

@@ -18,7 +18,7 @@
 #define	INIT_X	1
 #define	INIT_Y	1
 
-#define	SIGHT	30
+#define	SIGHT	5
 
 #define LV2WAL	20 //the amount of increased wall of level 2.
 #define LV2SIT	1 //the amount of decreased sight range of level 2.
