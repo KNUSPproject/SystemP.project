@@ -9,7 +9,7 @@
 #define	MAX_OB	80
 #define	NUM_OB	80
 #define NUM_MON	5
-
+//git test
 struct travler t;
 struct monster m[NUM_MON];
 struct obstacle wall[MAX_OB];
