@@ -12,7 +12,7 @@
 #define	INIT_X	1
 #define	INIT_Y	1
 
-#define	SIGHT	1
+#define	SIGHT	30
 
 #define YONGHO	30
 
