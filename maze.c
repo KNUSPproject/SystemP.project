@@ -22,6 +22,7 @@ struct level_setup lsup[3];
 
 void set_up();
 void map_setting();
+void trs_setting();
 void sight_vis(int, int);
 void anew(int, int);
 void start(int, int);
@@ -44,6 +45,8 @@ void set_up(){
 	t.pos_x = INIT_X;
 	t.pos_y = INIT_Y;
 	t.sym	= CHA_SYMBOL;
+	
+	levelsetup();
 
 	mvaddch(t.pos_x, t.pos_y, t.sym);
 
@@ -58,11 +61,13 @@ void set_up(){
 
 	map_setting(NUM_OB + lsup[LEVEL-1].wal);
 	mon_setting(NUM_MON + lsup[LEVEL-1].mon);
+	trs_setting();
 	sight_vis(NUM_OB + lsup[LEVEL-1].wal, NUM_MON + lsup[LEVEL-1].mon);
 	for(x = 0; x < NUM_OB + lsup[LEVEL-1].wal; x++)
 		if(wall[x].vis == 1) mvaddch(wall[x].pos_x, wall[x].pos_y, wall[x].sym);
 	for(x = 0; x < NUM_MON + lsup[LEVEL-1].mon; x++)
 		if(m[x].vis == 1) mvaddch(m[x].pos_x, m[x].pos_y, m[x].sym);
+	mvaddch(tr.pos_x, tr.pos_y, tr.sym);
 	//show object if they are in travler's sight
 	
         refresh();
@@ -89,16 +94,22 @@ void levelsetup(){
 void map_setting(int n){
 	int i; int j;
 	int x, y;
+	int isdup = 0;
 	srand(time(NULL));
 
 	for(i = 0; i < n; i++){
-		x = rand()%(SCX-2) + 1;
-		y = rand()%(SCY-2) + 1;
-		for(j = 0; j < i; j++){
+		isdup = 0;
+		x = rand()%(SCX + lsup[LEVEL-1].x -2) + 1;
+		y = rand()%(SCY + lsup[LEVEL-1].y -2) + 1;
+		for(j = 1; j < i; j++){
 			if(wall[i].pos_x == x && wall[i].pos_y == y){
+			isdup = 1;
+			break;
+		}//check duplication
+		if(isdup == 1) {
 			i--;
 			continue;
-		}//check duplication
+		}
 		wall[i].vis = 0;
 		wall[i].pos_x = x;
 		wall[i].pos_y = y;
@@ -110,16 +121,22 @@ void map_setting(int n){
 void mon_setting(int n){
 	int i; int j;
 	int x, y;
+	int isdup = 0;
 	srand(time(NULL));
 
 	for(i = 0; i < n; i++){
+		isdup = 0;
 		x = rand()&(SCX + lsup[LEVEL-1].x - 2) +1;
 		y = rand()&(SCY + lsup[LEVEL-1].y - 2) +1;
-		for(j = 0; j < i; j++){
+		for(j = 1; j < i; j++){
 			if(m[i].pos_x == x && m[i].pos_x == y){
+			isdup = 1;
+			break;
+		}//check duplication
+		if(isdup == 1){
 			i--;
 			continue;
-		}//check duplication
+		}
 		m[i].vis = 0;
 		m[i].pos_x = x;
 		m[i].pos_y = y;
@@ -313,12 +330,12 @@ void start(int n, int m){
 		move_t(c, n);
 		sight_vis(n, m);
 		anew(n, m);
-		if (win()) {
+		/*if (win()) {
 			sprintf(level, "%d", LEVEL);
 			erase();
 			set_up(); mvaddstr(29, 41, "Level:");
 			mvaddstr(29, 42+strlen("Level:"), level);
-		}
+		}*/
 		if (LEVEL == 4) {
 			endwin(); exit(1);
 		}
