@@ -26,6 +26,9 @@ void map_setting();
 void sight_vis(int, int);
 void anew(int, int);
 void start(int, int);
+int set_ticker(int);
+void move_m();
+
 
 void main(){
 	set_up(); mvaddstr(29, 41, "Level: 1");
@@ -114,6 +117,7 @@ void anew(int n, int nm){
 void move_t(char c, int n){
 	int xdir, ydir;
 	int wall_check(int, int, int, int, int);
+	
 	if(c == 'a'){
 		xdir = 0; ydir = -1;
 		if(t.pos_y-1 > 0 && wall_check(t.pos_x, t.pos_y, n, xdir, ydir) == 0){
@@ -152,11 +156,10 @@ int wall_check(int x, int y, int n, int xdir, int ydir){
 	return 0;
 } //retuen 1 when t_positions are same as wall's
 
-void move_m(int n){
+void move_m(){
         int dir, i, ok;
         int wall_check_m(int, int, int, int);
-        int set_ticker(int);
-
+	int n = NUM_MON;
         srand(time(NULL));
 
         for(i = 0; i < n; i++){
@@ -168,6 +171,7 @@ void move_m(int n){
                 if(dir == 2 && ok == 0) m[i].pos_y++;
                 if(dir == 3 && ok == 0) m[i].pos_y--;
         }
+	anew(NUM_OB,NUM_MON);
 }
 
 int wall_check_m(int x, int y, int n, int dir){
@@ -250,8 +254,17 @@ void sight_vis(int n, int nm){
 
 void start(int n, int m){
 	char c;
+<<<<<<< HEAD
 	char *level;
 
+=======
+
+	if(set_ticker(300)==-1)
+		perror("set_ticker");
+
+	signal(SIGALRM, move_m);
+	
+>>>>>>> origin/yongho
 	while(1){
 		c = getchar();
 		if (c == 'r') {
@@ -259,7 +272,6 @@ void start(int n, int m){
 			set_up();
 		}
 		move_t(c, n);
-		move_m(m);
 		sight_vis(n, m);
 		anew(n, m);
 		if (win()) {
@@ -275,3 +287,13 @@ void start(int n, int m){
 	}
 }
 
+<<<<<<< HEAD
+=======
+
+
+
+
+
+	
+
+>>>>>>> origin/yongho
