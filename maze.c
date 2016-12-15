@@ -254,17 +254,13 @@ void sight_vis(int n, int nm){
 
 void start(int n, int m){
 	char c;
-<<<<<<< HEAD
 	char *level;
-
-=======
 
 	if(set_ticker(300)==-1)
 		perror("set_ticker");
 
 	signal(SIGALRM, move_m);
 	
->>>>>>> origin/yongho
 	while(1){
 		c = getchar();
 		if (c == 'r') {
@@ -287,13 +283,3 @@ void start(int n, int m){
 	}
 }
 
-<<<<<<< HEAD
-=======
-
-
-
-
-
-	
-
->>>>>>> origin/yongho
