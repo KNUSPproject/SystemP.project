@@ -238,7 +238,7 @@ void move_m(){
                 if(dir == 2 && ok == 0) m[i].pos_y++;
                 if(dir == 3 && ok == 0) m[i].pos_y--;
         }
-	death(m + lsup[LEVEL-1].mon);
+	death(NUM_MON + lsup[LEVEL-1].mon);
 	anew(NUM_OB + lsup[LEVEL-1].wal ,NUM_MON + lsup[LEVEL-1].mon);
 }
 
